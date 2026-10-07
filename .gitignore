@@ -1,0 +1,13 @@
+# 데이터 파일 깃허브 업로드 방지 (로컬에만 저장)
+data/*.csv
+data/*.xlsx
+data/*.json
+
+# API 키 등 보안 파일 업로드 방지
+config.json
+.env
+secret.py
+
+# 파이썬 캐시 파일 무시
+__pycache__/
+*.pyc
