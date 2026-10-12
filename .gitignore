@@ -1,11 +1,22 @@
 # 데이터 파일 깃허브 업로드 방지 (로컬에만 저장)
 data/*.csv
 data/*.xlsx
+data/*.xls
 data/*.json
+
+# data 안의 파일은 기본적으로 업로드 제외
+data/**
+
+# 설문 집계 결과 폴더만 업로드 허용
+!data/survey/
+!data/survey/summary/
+!data/survey/summary/**
 
 # API 키 등 보안 파일 업로드 방지
 config.json
 .env
+.env.*
+!.env.example
 secret.py
 
 # 파이썬 캐시 파일 무시
