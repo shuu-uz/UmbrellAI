@@ -10,6 +10,8 @@
 
 ## 배소현 분석 결과 (2026-11-02)
 
+[PR #3](https://github.com/shuu-uz/UmbrellAI/pull/3) · [노션 9주차 결과](https://app.notion.com/p/9-407234f14c7d800d95f5e633735e0f74) · PM 검토 및 main 병합 대기
+
 [세 가설과 추천 알고리즘 연결 — 최종 정리](docs/hypotheses_and_algorithm.md)
 
 [분석 결과·가설 검정·모델 한계·재현 방법](docs/sohyun_results_20261102.md)
