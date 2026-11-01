@@ -1,0 +1,43 @@
+{
+  "target": "stated_carry_intention",
+  "feature_names": [
+    "outdoor_minutes",
+    "carry_discomfort",
+    "wet_discomfort"
+  ],
+  "mean": [
+    35.0,
+    3.9,
+    4.125
+  ],
+  "scale": [
+    25.0,
+    1.1022703842524302,
+    1.1976539567003484
+  ],
+  "coefficients": [
+    0.6972587371292364,
+    -0.5540503715969323,
+    0.5714803116147749
+  ],
+  "intercept": 0.021738529569715,
+  "classes": [
+    0,
+    1
+  ],
+  "C": 1.0,
+  "score_domain": {
+    "POP": [
+      50
+    ],
+    "outdoor_minutes": [
+      10,
+      60
+    ],
+    "discomfort": [
+      1,
+      5
+    ]
+  },
+  "limitations": "Hypothetical intentions only; not physical need or calibrated real-world probability"
+}

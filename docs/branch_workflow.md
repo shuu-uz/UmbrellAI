@@ -1,24 +1,14 @@
 # 소현님 브랜치 작업
 
-예정 브랜치: feat/sohyun-weather-analysis
+작업 브랜치는 기존 `feat/weather-analysis`를 이어서 사용한다. `main`과 다른 담당자의 브랜치는 이 작업에서 변경하지 않는다. 2026-11-02 현재 연결 계정 `baesohyun`의 push 권한을 확인했다. 이전 문서의 브랜치 생성 403은 과거 상황이며 현재 권한 판정으로 사용하지 않는다.
 
-현재 GitHub 연결에서 브랜치 생성이 403 Resource not accessible by integration으로 거절되어 원격 브랜치·커밋·PR은 생성되지 않았습니다.
-
-저장소를 로컬로 열어 아래 순서로 작업합니다. ZIP의 src/docs/tests를 저장소에 복사하거나, 패치를 저장소 밖에 둔 뒤 git apply로 적용합니다.
+이번 작업은 예보 실측 분석, 설문 지참 의향 모델, 검증 및 결과 문서다. 최신 범위·한계와 재현 명령은 [배소현 분석 결과](sohyun_results_20261102.md)에 있다.
 
 ```sh
-git switch main
-git pull --ff-only
-git switch -c feat/sohyun-weather-analysis
-git apply ../sohyun-weather-analysis.patch
+git switch feat/weather-analysis
 python -m unittest discover -s tests -v
-git add src/analysis.py src/__init__.py docs/analysis_criteria.md docs/repository_findings.md tests/test_analysis.py
-git commit -m "feat: prepare weather evaluation and umbrella recommendation"
-git push -u origin feat/sohyun-weather-analysis
+git diff --check
+git push origin feat/weather-analysis
 ```
 
-패치 위치는 실제 저장 위치에 맞춥니다. 이미 같은 파일이 있으면 적용 전에 변경 내용을 비교하세요. 권장 PR 대상은 main이며 초안 PR로 검토를 요청합니다.
-
-PR 제목: 예보 평가·우산 추천 초안과 분석 기준 준비
-
-PR 설명: 현재 예보 수집 컬럼과 real_rain 실측 컬럼을 받는 평가 코드를 추가합니다. 관측 누락을 제외하고 중복 대상 키는 오류로 처리하며 오차행렬, 헛경보 비율, 거짓 양성률, 놓침률을 계산합니다. 우산 추천은 임시 규칙으로 구현했습니다. 합성 데이터 테스트 6개 통과. 실제 데이터 병합·예보 성능 분석은 수행하지 않았습니다. 2026년 실측과 누락 플래그 의미, 관측 구간, 발표 선택 기준은 팀 확인이 필요합니다.
+PR 대상은 `main`이다. PM이 기존 다른 담당자의 PR과 함께 검토한 뒤 병합한다. 개인별 원본 설문과 관측 데이터는 기존 방침대로 추가 커밋하지 않는다.
