@@ -209,6 +209,27 @@
       ]
     }
   },
+  "preference_association": {
+    "n_respondents": 80,
+    "spearman_rho": 0.3983715075794851,
+    "permutation_p_two_sided": 0.00039996000399960006,
+    "permutations": 10000,
+    "seed": 42,
+    "test_unit": "One source respondent row, with both choices kept together",
+    "scope": "Exploratory association after inspecting these data; not causal or preregistered"
+  },
+  "personalization_stability": {
+    "repetitions": 20,
+    "respondents": 80,
+    "accuracy_gain_mean": 0.0290625,
+    "accuracy_gain_min": -0.012499999999999956,
+    "accuracy_gain_max": 0.043749999999999956,
+    "brier_improvement_mean": 0.01616651065453965,
+    "brier_improvement_min": 0.011962800222381387,
+    "brier_improvement_max": 0.021608636928949432,
+    "brier_improved_repetitions": 20,
+    "scope": "Split sensitivity on the same 80 records; ranges are not confidence intervals or external evidence"
+  },
   "preference_groups": [
     {
       "preference_group": "wet_more",

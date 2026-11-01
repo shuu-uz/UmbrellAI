@@ -22,6 +22,7 @@ from sklearn.preprocessing import StandardScaler
 
 from .analysis import evaluate
 from .intention_model import FEATURES, intention_score
+from .recommendation import recommend_from_travel_forecasts
 
 KEY = ['date', 'time', 'nx', 'ny']
 SCENARIOS = ['이동10분', '이동60분', '이동시간비없음', '이동시간비있음', '이슬비지참']
@@ -152,13 +153,13 @@ def paired_test(survey, before, after):
             'gain': gain, 'loss': loss, 'exact_mcnemar_p': p}
 
 
-def grouped_model(long, columns):
+def grouped_model(long, columns, *, seed=42, return_predictions=False):
     x = long[columns].to_numpy(dtype=float)
     y = long.y.to_numpy(dtype=int)
     groups = long.respondent.to_numpy()
     if len(np.unique(y)) < 2 or any(long.groupby('respondent').size() > 2):
         raise ValueError('Need two outcome classes and at most two paired rows per respondent')
-    splitter = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)
+    splitter = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=seed)
     predictions = np.empty(len(long))
     baseline = np.empty(len(long))
     folds = []
@@ -189,9 +190,64 @@ def grouped_model(long, columns):
                 'classes': lr.classes_.tolist(), 'C': 1.,
                 'score_domain': {'POP': [50], 'outdoor_minutes': [10, 60], 'discomfort': [1, 5]},
                 'limitations': 'Hypothetical intentions only; not physical need or calibrated real-world probability'}
-    return {'oof': metrics(predictions), 'prior_baseline_oof': metrics(baseline),
+    summary = {'oof': metrics(predictions), 'prior_baseline_oof': metrics(baseline),
             'folds': folds, 'n_rows': len(long), 'n_respondents': len(set(groups)),
-            'carry_rows': int(y.sum()), 'features': columns}, artifact
+            'carry_rows': int(y.sum()), 'features': columns}
+    if return_predictions:
+        return summary, artifact, predictions
+    return summary, artifact
+
+
+def preference_association(survey, *, permutations=10000, seed=42):
+    """Exploratory respondent-level ordinal association, preserving paired answers.
+
+    Compare order of preferences (carry-more/equal/wet-more), not ratios of
+    Likert scores. Collapse two choices per respondent to a mean stated choice.
+    """
+    group = np.sign(survey['비맞음불편도'] - survey['우산짐불편도']).to_numpy()
+    carry = (survey['이동10분'].eq('챙긴다').astype(float)
+             + survey['이동60분'].eq('챙긴다').astype(float)).to_numpy() / 2
+    x, y = stats.rankdata(group), stats.rankdata(carry)
+    x, y = x - x.mean(), y - y.mean()
+    denominator = np.linalg.norm(x) * np.linalg.norm(y)
+    if denominator == 0:
+        return {'spearman_rho': None, 'permutation_p_two_sided': None,
+                'reason': 'Constant preference group or respondent choice'}
+    observed = float(x @ y / denominator)
+    rng = np.random.default_rng(seed)
+    extreme = sum(abs(x @ rng.permutation(y) / denominator) >= abs(observed) - 1e-12
+                  for _ in range(permutations))
+    return {'n_respondents': len(survey), 'spearman_rho': observed,
+            'permutation_p_two_sided': (extreme + 1) / (permutations + 1),
+            'permutations': permutations, 'seed': seed,
+            'test_unit': 'One source respondent row, with both choices kept together',
+            'scope': 'Exploratory association after inspecting these data; not causal or preregistered'}
+
+
+def personalization_stability(long, *, seeds=range(42, 62)):
+    """Matched splits for both models; repetitions do not create new respondents."""
+    rows = []
+    for seed in seeds:
+        simple, _ = grouped_model(long, ['outdoor_minutes'], seed=seed)
+        personal, _ = grouped_model(long, FEATURES, seed=seed)
+        rows.append({'seed': seed,
+                     'time_accuracy': simple['oof']['accuracy'],
+                     'personal_accuracy': personal['oof']['accuracy'],
+                     'accuracy_gain': personal['oof']['accuracy'] - simple['oof']['accuracy'],
+                     'time_brier': simple['oof']['brier'],
+                     'personal_brier': personal['oof']['brier'],
+                     'brier_improvement': simple['oof']['brier'] - personal['oof']['brier']})
+    frame = pd.DataFrame(rows)
+    summary = {'repetitions': len(rows), 'respondents': int(long.respondent.nunique()),
+               'accuracy_gain_mean': float(frame.accuracy_gain.mean()),
+               'accuracy_gain_min': float(frame.accuracy_gain.min()),
+               'accuracy_gain_max': float(frame.accuracy_gain.max()),
+               'brier_improvement_mean': float(frame.brier_improvement.mean()),
+               'brier_improvement_min': float(frame.brier_improvement.min()),
+               'brier_improvement_max': float(frame.brier_improvement.max()),
+               'brier_improved_repetitions': int(frame.brier_improvement.gt(0).sum()),
+               'scope': 'Split sensitivity on the same 80 records; ranges are not confidence intervals or external evidence'}
+    return frame, summary
 
 
 def survey_analysis(path, out):
@@ -229,6 +285,10 @@ def survey_analysis(path, out):
         result['models'][name] = metrics
         artifacts[name] = artifact
     dump(out / 'intention_model.json', artifacts['personalized'])
+    dump(out / 'time_only_model.json', artifacts['time_only'])
+    result['preference_association'] = preference_association(survey)
+    stability, result['personalization_stability'] = personalization_stability(long)
+    stability.to_csv(out / 'personalization_stability.csv', index=False)
     # Verify exported arithmetic against sklearn pipeline prediction, independently.
     all_fit = make_pipeline(StandardScaler(), LogisticRegression(C=1., max_iter=2000, random_state=42))
     all_fit.fit(long[FEATURES].to_numpy(dtype=float), long.y.to_numpy())
@@ -280,6 +340,65 @@ def charts(weather, survey, out):
     axes[1].spines[['top', 'right']].set_visible(False)
     fig.savefig(out / 'analysis_summary.png', dpi=180)
     plt.close(fig)
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5), constrained_layout=True)
+    observed = [b for b in weather['pop_bins'] if b['n']]
+    bars = axes[0].bar([b['pop_bin'] for b in observed],
+                       [100*b['observed_wet_rate'] for b in observed], color='#346eab')
+    axes[0].bar_label(bars, labels=[f'{b["wet"]}/{b["n"]}' for b in observed], padding=4)
+    axes[0].set(ylim=(0, 105), xlabel='POP 구간 (%) · 관측된 구간만 표시', ylabel='실제 강수 비율 (%)',
+                title='가설 1 · POP와 실제 강수\n107시간, 강수일은 1일')
+    bars = axes[1].bar(['10분', '60분'], vals, color='#346eab')
+    axes[1].bar_label(bars, labels=[f'{v:g}%' for v in vals], padding=4)
+    axes[1].set(ylim=(0, 105), xlabel='야외 이동 조건', ylabel='지참 의향 (%)',
+                title='가설 2 · 이동 시간\nPOP 50%, 동일 응답 80쌍')
+    labels = ['우산짐이\n더 불편', '같음', '비 맞음이\n더 불편']
+    keys = ['carry_more', 'equal', 'wet_more']
+    for offset, scenario, label, color in [(-.19, '이동10분', '10분 조건', '#aac5e3'),
+                                           (.19, '이동60분', '60분 조건', '#346eab')]:
+        rates = [100*next(r['carry_rate'] for r in survey['preference_groups']
+                         if r['preference_group'] == key and r['scenario'] == scenario) for key in keys]
+        bars = axes[2].bar(np.arange(3)+offset, rates, width=.36, label=label, color=color, edgecolor='#23496d')
+        axes[2].bar_label(bars, labels=[f'{v:.1f}' for v in rates], padding=3, fontsize=9)
+    axes[2].set(xticks=np.arange(3), xticklabels=labels, ylim=(0, 105), ylabel='지참 의향 (%)',
+                title='가설 3 · 개인 선호\n집단별 응답 수 18 / 25 / 37')
+    axes[2].legend(loc='upper left', frameon=False)
+    for ax in axes:
+        ax.spines[['top', 'right']].set_visible(False)
+    fig.savefig(out / 'hypothesis_summary.png', dpi=180)
+    plt.close(fig)
+
+
+def hypothesis_outputs(weather, survey, out):
+    primary = survey['paired_tests'][0]
+    dump(out / 'hypotheses_summary.json', {
+        'H1': {'hypothesis': 'Higher POP bins have higher observed precipitation frequency',
+               'status': 'Direction observed; generalization/calibration unverified',
+               'data': {'evaluated_hours': weather['evaluated_rows'], 'bins': weather['pop_bins']},
+               'algorithm_action': 'Retain raw POP; no learned probability recalibration'},
+        'H2': {'hypothesis': 'At POP=50%, 60-minute scenario has higher carry intention than 10-minute scenario',
+               'status': 'Supported within these hypothetical paired scenarios',
+               'data': primary,
+               'effect_percentage_points': 100*(primary['after_carry']-primary['before_carry'])/primary['n_respondents'],
+               'algorithm_action': 'Include exposure duration; no inferred 15-minute cutoff or interpolation'},
+        'H3': {'hypothesis': 'Preference for avoiding wet discomfort is associated with higher carry intention',
+               'status': 'Exploratory association and model improvement potential; no external validation',
+               'association': survey['preference_association'],
+               'split_sensitivity': survey['personalization_stability'],
+               'algorithm_action': 'Include both discomfort inputs; do not treat ordinal scores as cost ratios'}})
+    model = json.loads((out / 'intention_model.json').read_text(encoding='utf-8'))
+    examples = []
+    for name, pops, minutes, confirmed in [('measured_scenario_10min', [50], 10, True),
+                                          ('measured_scenario_60min', [50], 60, True),
+                                          ('unmeasured_POP', [60], 10, True),
+                                          ('unmeasured_time', [50], 30, True),
+                                          ('travel_window_not_selected', [50], 10, False)]:
+        examples.append({'case': name, 'kind': 'ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME',
+                         'input': {'travel_pops': pops, 'minutes': minutes,
+                                   'carry_discomfort': 4, 'wet_discomfort': 4},
+                         'output': recommend_from_travel_forecasts([{'POP': p} for p in pops], model,
+                                  outdoor_minutes=minutes, carry_discomfort=4, wet_discomfort=4,
+                                  travel_window_confirmed=confirmed)})
+    dump(out / 'recommendation_examples.json', examples)
 
 
 def main():
@@ -291,6 +410,7 @@ def main():
     args.out.mkdir(parents=True, exist_ok=True)
     w = weather_analysis(args.weather, args.out)
     s = survey_analysis(args.survey, args.out)
+    hypothesis_outputs(w, s, args.out)
     charts(w, s, args.out)
     dump(args.out / 'provenance.json', {
         'weather': {'file': args.weather.name, 'sha256': hashlib.sha256(args.weather.read_bytes()).hexdigest(),
