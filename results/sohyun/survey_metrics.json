@@ -1,0 +1,284 @@
+{
+  "n_respondents": 80,
+  "paired_tests": [
+    {
+      "before": "이동10분",
+      "after": "이동60분",
+      "n_respondents": 80,
+      "before_carry": 28,
+      "after_carry": 53,
+      "gain": 25,
+      "loss": 0,
+      "exact_mcnemar_p": 5.960464477539063e-08,
+      "holm_p": 5.960464477539063e-08
+    },
+    {
+      "before": "이동시간비없음",
+      "after": "이동시간비있음",
+      "n_respondents": 80,
+      "before_carry": 31,
+      "after_carry": 66,
+      "gain": 36,
+      "loss": 1,
+      "exact_mcnemar_p": 5.529727786779404e-10,
+      "holm_p": 1.1059455573558807e-09
+    }
+  ],
+  "model_target": "챙긴다=1; 챙기지 않는다/고민된다=0 (sensitivity excludes 고민된다)",
+  "cv": "5-fold StratifiedGroupKFold by row-derived respondent ID; shuffle=True, random_state=42",
+  "models": {
+    "time_only": {
+      "oof": {
+        "accuracy": 0.65625,
+        "balanced_accuracy": 0.6562744178777934,
+        "roc_auc": 0.6262697296452571,
+        "brier": 0.22740017842747018,
+        "log_loss": 0.6475135485226284
+      },
+      "prior_baseline_oof": {
+        "accuracy": 0.45625,
+        "balanced_accuracy": 0.4549929676511955,
+        "roc_auc": 0.4449914049070167,
+        "brier": 0.2513671875,
+        "log_loss": 0.6958829042288434
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 2,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 3,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 4,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 5,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        }
+      ],
+      "n_rows": 160,
+      "n_respondents": 80,
+      "carry_rows": 81,
+      "features": [
+        "outdoor_minutes"
+      ]
+    },
+    "personalized": {
+      "oof": {
+        "accuracy": 0.68125,
+        "balanced_accuracy": 0.6814345991561181,
+        "roc_auc": 0.7451945616502579,
+        "brier": 0.2081768242194822,
+        "log_loss": 0.621560955298589
+      },
+      "prior_baseline_oof": {
+        "accuracy": 0.45625,
+        "balanced_accuracy": 0.4549929676511955,
+        "roc_auc": 0.4449914049070167,
+        "brier": 0.2513671875,
+        "log_loss": 0.6958829042288434
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 2,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 3,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 4,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        },
+        {
+          "fold": 5,
+          "train_respondents": 64,
+          "test_respondents": 16,
+          "test_rows": 32,
+          "group_overlap": 0
+        }
+      ],
+      "n_rows": 160,
+      "n_respondents": 80,
+      "carry_rows": 81,
+      "features": [
+        "outdoor_minutes",
+        "carry_discomfort",
+        "wet_discomfort"
+      ]
+    },
+    "decisive_only": {
+      "oof": {
+        "accuracy": 0.7132352941176471,
+        "balanced_accuracy": 0.6950617283950618,
+        "roc_auc": 0.734006734006734,
+        "brier": 0.204619905485112,
+        "log_loss": 0.6094425533906819
+      },
+      "prior_baseline_oof": {
+        "accuracy": 0.5955882352941176,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.34702581369248037,
+        "brier": 0.24989392184263332,
+        "log_loss": 0.6936386367102391
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "train_respondents": 61,
+          "test_respondents": 15,
+          "test_rows": 24,
+          "group_overlap": 0
+        },
+        {
+          "fold": 2,
+          "train_respondents": 60,
+          "test_respondents": 16,
+          "test_rows": 30,
+          "group_overlap": 0
+        },
+        {
+          "fold": 3,
+          "train_respondents": 61,
+          "test_respondents": 15,
+          "test_rows": 25,
+          "group_overlap": 0
+        },
+        {
+          "fold": 4,
+          "train_respondents": 61,
+          "test_respondents": 15,
+          "test_rows": 29,
+          "group_overlap": 0
+        },
+        {
+          "fold": 5,
+          "train_respondents": 61,
+          "test_respondents": 15,
+          "test_rows": 28,
+          "group_overlap": 0
+        }
+      ],
+      "n_rows": 136,
+      "n_respondents": 76,
+      "carry_rows": 81,
+      "features": [
+        "outdoor_minutes",
+        "carry_discomfort",
+        "wet_discomfort"
+      ]
+    }
+  },
+  "preference_association": {
+    "n_respondents": 80,
+    "spearman_rho": 0.3983715075794851,
+    "permutation_p_two_sided": 0.00039996000399960006,
+    "permutations": 10000,
+    "seed": 42,
+    "test_unit": "One source respondent row, with both choices kept together",
+    "scope": "Exploratory association after inspecting these data; not causal or preregistered"
+  },
+  "personalization_stability": {
+    "repetitions": 20,
+    "respondents": 80,
+    "accuracy_gain_mean": 0.0290625,
+    "accuracy_gain_min": -0.012499999999999956,
+    "accuracy_gain_max": 0.043749999999999956,
+    "brier_improvement_mean": 0.01616651065453965,
+    "brier_improvement_min": 0.011962800222381387,
+    "brier_improvement_max": 0.021608636928949432,
+    "brier_improved_repetitions": 20,
+    "scope": "Split sensitivity on the same 80 records; ranges are not confidence intervals or external evidence"
+  },
+  "preference_groups": [
+    {
+      "preference_group": "wet_more",
+      "scenario": "이동10분",
+      "n": 37,
+      "carry": 20,
+      "carry_rate": 0.5405405405405406
+    },
+    {
+      "preference_group": "wet_more",
+      "scenario": "이동60분",
+      "n": 37,
+      "carry": 30,
+      "carry_rate": 0.8108108108108109
+    },
+    {
+      "preference_group": "equal",
+      "scenario": "이동10분",
+      "n": 25,
+      "carry": 5,
+      "carry_rate": 0.2
+    },
+    {
+      "preference_group": "equal",
+      "scenario": "이동60분",
+      "n": 25,
+      "carry": 16,
+      "carry_rate": 0.64
+    },
+    {
+      "preference_group": "carry_more",
+      "scenario": "이동10분",
+      "n": 18,
+      "carry": 3,
+      "carry_rate": 0.16666666666666666
+    },
+    {
+      "preference_group": "carry_more",
+      "scenario": "이동60분",
+      "n": 18,
+      "carry": 7,
+      "carry_rate": 0.3888888888888889
+    }
+  ],
+  "notes": [
+    "80 row IDs are proxies for respondents, not verified unique people.",
+    "No join key between weather observations and survey responses. No arbitrary cross-join.",
+    "Q1/Q2 hold POP constant at 50%; effect of POP or PCP cannot be learned.",
+    "Group CV is internal validation, not independent external validation.",
+    "Personalized vs time-only comparison is exploratory; no tuning/model selection claim."
+  ]
+}

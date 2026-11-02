@@ -1,0 +1,21 @@
+{
+  "weather": {
+    "file": "merged_forecast_actual.csv",
+    "sha256": "3c2be74c78b78c2b8e704beb2ddbcc3863f415735146f1fbca55bff47c48778a",
+    "source": "https://app.notion.com/p/7-3f9234f14c7d80e3b958fc365d0de062"
+  },
+  "survey": {
+    "file": "cleaned_responses.csv",
+    "sha256": "558c5b39a398e05bbbe9d5b339c75d9d6bb9b5d1b59df0041c8ac36100a5bf3e",
+    "source": "https://github.com/shuu-uz/UmbrellAI/blob/88d24e2636e76b2c5506c40185409efb22f068a5/survey_analysis/cleaned_responses.csv"
+  },
+  "versions": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.9"
+  },
+  "analysis_date": "2026-11-02",
+  "raw_data_committed": false
+}

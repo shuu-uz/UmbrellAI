@@ -1,0 +1,222 @@
+{
+  "data_kind": "REAL_DATA",
+  "evaluated_rows": 107,
+  "excluded": {
+    "observation_missing": 15,
+    "invalid_value": 0
+  },
+  "confusion_matrix": [
+    [
+      97,
+      2
+    ],
+    [
+      0,
+      8
+    ]
+  ],
+  "counts": {
+    "TN": 97,
+    "FP": 2,
+    "FN": 0,
+    "TP": 8
+  },
+  "false_alarm_ratio": 0.2,
+  "false_positive_rate": 0.020202020202020204,
+  "miss_rate": 0.0,
+  "accuracy": 0.9813084112149533,
+  "input_rows": 125,
+  "unique_targets": 122,
+  "ineligible_issuance_rows": 0,
+  "superseded_rows": 3,
+  "selected_rows": 122,
+  "timezone": "Asia/Seoul (source assumption; timestamps have no offsets)",
+  "selection": "Latest supplied issuance <= target_at - 1 hour per date/time/nx/ny",
+  "availability_limit": "collected_at absent; operational availability not verified",
+  "period": [
+    "20261007",
+    "20261014"
+  ],
+  "grids": [
+    [
+      58,
+      121
+    ]
+  ],
+  "observed_wet_hours": 8,
+  "observed_dry_hours": 99,
+  "evaluated_period": [
+    "20261007",
+    "20261014"
+  ],
+  "source_missing_rows": 15,
+  "under1mm_imputed_rows": 5,
+  "notes": [
+    "PCP 0.5mm substitution is upstream assumption; not used for POP evaluation.",
+    "temp/humidity are observations, excluded from prediction features.",
+    "Metrics are descriptive for this small supplied sample, not future performance.",
+    "Observation source/aggregation interval verified only from team documentation, not raw AWS."
+  ],
+  "pop_bins": [
+    {
+      "pop_bin": "0-<20",
+      "n": 70,
+      "wet": 0,
+      "observed_wet_rate": 0.0
+    },
+    {
+      "pop_bin": "20-<40",
+      "n": 27,
+      "wet": 0,
+      "observed_wet_rate": 0.0
+    },
+    {
+      "pop_bin": "40-<60",
+      "n": 0,
+      "wet": 0,
+      "observed_wet_rate": null
+    },
+    {
+      "pop_bin": "60-<80",
+      "n": 10,
+      "wet": 8,
+      "observed_wet_rate": 0.8
+    },
+    {
+      "pop_bin": "80-100",
+      "n": 0,
+      "wet": 0,
+      "observed_wet_rate": null
+    }
+  ],
+  "lead_time_groups": [
+    {
+      "lead_hours": [
+        1,
+        6
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 30,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "counts": {
+        "TN": 30,
+        "FP": 0,
+        "FN": 0,
+        "TP": 0
+      },
+      "false_alarm_ratio": null,
+      "false_positive_rate": 0.0,
+      "miss_rate": null,
+      "accuracy": 1.0
+    },
+    {
+      "lead_hours": [
+        7,
+        12
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 28,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          25,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "counts": {
+        "TN": 25,
+        "FP": 1,
+        "FN": 0,
+        "TP": 2
+      },
+      "false_alarm_ratio": 0.3333333333333333,
+      "false_positive_rate": 0.038461538461538464,
+      "miss_rate": 0.0,
+      "accuracy": 0.9642857142857143
+    },
+    {
+      "lead_hours": [
+        13,
+        24
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 48,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          41,
+          1
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "counts": {
+        "TN": 41,
+        "FP": 1,
+        "FN": 0,
+        "TP": 6
+      },
+      "false_alarm_ratio": 0.14285714285714285,
+      "false_positive_rate": 0.023809523809523808,
+      "miss_rate": 0.0,
+      "accuracy": 0.9791666666666666
+    },
+    {
+      "lead_hours": [
+        25,
+        25
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 1,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "counts": {
+        "TN": 1,
+        "FP": 0,
+        "FN": 0,
+        "TP": 0
+      },
+      "false_alarm_ratio": null,
+      "false_positive_rate": 0.0,
+      "miss_rate": null,
+      "accuracy": 1.0
+    }
+  ]
+}

@@ -7,3 +7,21 @@
 - `data/`: 기상청 API 데이터 및 설문조사 CSV (깃허브에는 안 올라감)
 - `src/`: 크롤러 및 데이터 분석 파이썬 코드
 - `docs/`: 주차별 보고서
+
+## 배소현 분석 결과 (2026-11-02)
+
+[PR #3](https://github.com/shuu-uz/UmbrellAI/pull/3) · [노션 9주차 결과](https://app.notion.com/p/9-407234f14c7d800d95f5e633735e0f74) · PM 검토 및 main 병합 대기
+
+[세 가설과 추천 알고리즘 연결 — 최종 정리](docs/hypotheses_and_algorithm.md)
+
+[분석 결과·가설 검정·모델 한계·재현 방법](docs/sohyun_results_20261102.md)
+
+- 제공된 병합 자료 125행에서 발표 중복과 실측 누락을 처리한 107시간을 평가했습니다.
+- 설문 80응답의 두 조건 160행으로 로지스틱 회귀를 학습하고 응답자 묶음 단위로 내부 검증했습니다.
+- 현재 모델 점수는 POP 50%·이동 10/60분이라는 설문 조건의 **지참 의향**입니다. 실제 필요도나 다른 날씨 조건의 검증된 확률이 아닙니다.
+- 실제 기상·사용자 변수 통합 모델에는 사건별로 연결된 추가 정답 자료가 필요합니다.
+
+```sh
+python -m pip install -r requirements-analysis.txt
+python -m unittest discover -s tests -v
+```
