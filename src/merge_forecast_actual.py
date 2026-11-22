@@ -2,15 +2,20 @@ import pandas as pd
 from pathlib import Path
 
 DATA_DIR = Path("./data")
-FORECASTS = [DATA_DIR / f"forecast_{i}.csv" for i in range(1, 6)]
+FORECASTS = sorted(DATA_DIR.glob("forecast_clean_*.csv"))
 ACTUAL = DATA_DIR / "real_rain_all.csv"
 OUT = DATA_DIR / "merged_forecast_actual.csv"
 
+print("읽은 예보 파일:", len(FORECASTS), "개")
 fc = pd.concat(
     [pd.read_csv(f, dtype=str, encoding="utf-8-sig") for f in FORECASTS],
     ignore_index=True,
 )
 ac = pd.read_csv(ACTUAL, dtype=str)
+
+key_fc = ["date", "time", "nx", "ny", "base_date", "base_time"]
+print("예보 중복 행:", fc.duplicated(key_fc).sum())
+fc = fc.drop_duplicates(key_fc)
 
 fc = fc.rename(columns={"base_date": "baseDate", "base_time": "baseTime"})
 for c in ["POP", "PCP", "PTY"]:
@@ -21,9 +26,8 @@ for df in (fc, ac):
     df["nx"] = df["nx"].astype(int)
     df["ny"] = df["ny"].astype(int)
 
-# "1mm 미만"은 PCP가 비어 있음 -> 0.5mm로 대체(가정), 표시 컬럼 남김
+# "1mm 미만"은 PCP 빈칸 유지(임의 대체 안 함), 표시 컬럼만 추가
 fc["pcp_under1mm"] = (fc["PCP_raw"] == "1mm 미만").astype(int)
-fc["PCP"] = fc["PCP"].where(fc["pcp_under1mm"] == 0, 0.5)
 
 keys = ["date", "time", "nx", "ny"]
 ac = ac.drop_duplicates(subset=keys)

@@ -26,7 +26,7 @@ raw["datetime"] = pd.to_datetime(raw["datetime"])
 raw = raw.drop_duplicates(subset="datetime")
 
 # 전체 1시간 시간표에 맞춰 누락된 시간도 행으로 만들기
-full_idx = pd.date_range("2023-01-01 00:00", "2026-10-31 23:00", freq="h")
+full_idx = pd.date_range("2023-01-01 00:00", "2026-11-21 23:00", freq="h")
 raw = raw.set_index("datetime").reindex(full_idx)
 raw.index.name = "datetime"
 raw = raw.reset_index()
@@ -34,6 +34,11 @@ raw = raw.reset_index()
 # 원래 비어 있던 강수량 표시 (fillna 하기 전에!)
 raw["rain_missing"] = raw["real_rain"].isna().astype(int)
 print("전체 행수:", len(raw), "/ 강수량 없는 시간:", raw["rain_missing"].sum())
+
+# 빈 시간이 언제 몰려 있는지 월별로 확인
+miss = raw[raw["rain_missing"] == 1]
+print("월별 빈 시간 수:")
+print(miss.groupby(miss["datetime"].dt.strftime("%Y-%m")).size().tail(6))
 
 # 팀 규칙대로 0.0 채움 (구분은 rain_missing으로 가능)
 raw["real_rain"] = raw["real_rain"].fillna(0.0)
