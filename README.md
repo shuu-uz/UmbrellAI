@@ -8,7 +8,11 @@
 - `src/`: 크롤러 및 데이터 분석 파이썬 코드
 - `docs/`: 주차별 보고서
 
-## 배소현 분석 결과 (2026-11-02)
+## 배소현 최종 분석 (2026-11-23)
+
+[836시간 평가·설문 분석·두 지참 의향 모델 및 실행 방법](docs/final_20261123.md) · [최종 집계표·그래프·모델 계수](results/final_20261123/) · [팀 노션](https://app.notion.com/p/421234f14c7d80e98a66df49af71f341)
+
+## 초기 분석 기록 (2026-11-02)
 
 [PR #3](https://github.com/shuu-uz/UmbrellAI/pull/3) · [노션 9주차 결과](https://app.notion.com/p/9-407234f14c7d800d95f5e633735e0f74) · PM 검토 및 main 병합 대기
 

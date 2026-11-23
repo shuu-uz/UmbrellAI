@@ -346,7 +346,7 @@ def charts(weather, survey, out):
                        [100*b['observed_wet_rate'] for b in observed], color='#346eab')
     axes[0].bar_label(bars, labels=[f'{b["wet"]}/{b["n"]}' for b in observed], padding=4)
     axes[0].set(ylim=(0, 105), xlabel='POP 구간 (%) · 관측된 구간만 표시', ylabel='실제 강수 비율 (%)',
-                title='가설 1 · POP와 실제 강수\n107시간, 강수일은 1일')
+                title=f"가설 1 · POP와 실제 강수\n평가 대상 {weather['evaluated_rows']}시간")
     bars = axes[1].bar(['10분', '60분'], vals, color='#346eab')
     axes[1].bar_label(bars, labels=[f'{v:g}%' for v in vals], padding=4)
     axes[1].set(ylim=(0, 105), xlabel='야외 이동 조건', ylabel='지참 의향 (%)',

@@ -1,0 +1,29 @@
+{
+  "features": [
+    "travel_rain_forecast",
+    "carry_discomfort",
+    "wet_discomfort"
+  ],
+  "weights": [
+    2.101946470981206,
+    -0.3214194459818371,
+    0.47975527496688164
+  ],
+  "intercept": -1.2049388507141816,
+  "fixed_daily_pop": 60,
+  "outcome": "survey carry intention",
+  "respondents": 80,
+  "rows": 160,
+  "validation": {
+    "weather_only": {
+      "brier": 0.20263196524479232,
+      "auc": 0.6479299623629521,
+      "accuracy": 0.71875
+    },
+    "combined": {
+      "brier": 0.19025516683033694,
+      "auc": 0.7546228113238423,
+      "accuracy": 0.6875
+    }
+  }
+}

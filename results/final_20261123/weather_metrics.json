@@ -1,0 +1,222 @@
+{
+  "data_kind": "REAL_DATA",
+  "evaluated_rows": 836,
+  "excluded": {
+    "observation_missing": 154,
+    "invalid_value": 0
+  },
+  "confusion_matrix": [
+    [
+      773,
+      28
+    ],
+    [
+      5,
+      30
+    ]
+  ],
+  "counts": {
+    "TN": 773,
+    "FP": 28,
+    "FN": 5,
+    "TP": 30
+  },
+  "false_alarm_ratio": 0.4827586206896552,
+  "false_positive_rate": 0.03495630461922597,
+  "miss_rate": 0.14285714285714285,
+  "accuracy": 0.9605263157894737,
+  "input_rows": 1025,
+  "unique_targets": 990,
+  "ineligible_issuance_rows": 0,
+  "superseded_rows": 35,
+  "selected_rows": 990,
+  "timezone": "Asia/Seoul (source assumption; timestamps have no offsets)",
+  "selection": "Latest supplied issuance <= target_at - 1 hour per date/time/nx/ny",
+  "availability_limit": "collected_at absent; operational availability not verified",
+  "period": [
+    "20261007",
+    "20261123"
+  ],
+  "grids": [
+    [
+      58,
+      121
+    ]
+  ],
+  "observed_wet_hours": 35,
+  "observed_dry_hours": 801,
+  "evaluated_period": [
+    "20261007",
+    "20261121"
+  ],
+  "source_missing_rows": 158,
+  "under1mm_imputed_rows": 42,
+  "notes": [
+    "PCP 0.5mm substitution is upstream assumption; not used for POP evaluation.",
+    "temp/humidity are observations, excluded from prediction features.",
+    "Metrics are descriptive for this small supplied sample, not future performance.",
+    "Observation source/aggregation interval verified only from team documentation, not raw AWS."
+  ],
+  "pop_bins": [
+    {
+      "pop_bin": "0-<20",
+      "n": 461,
+      "wet": 0,
+      "observed_wet_rate": 0.0
+    },
+    {
+      "pop_bin": "20-<40",
+      "n": 317,
+      "wet": 5,
+      "observed_wet_rate": 0.015772870662460567
+    },
+    {
+      "pop_bin": "40-<60",
+      "n": 0,
+      "wet": 0,
+      "observed_wet_rate": null
+    },
+    {
+      "pop_bin": "60-<80",
+      "n": 54,
+      "wet": 26,
+      "observed_wet_rate": 0.48148148148148145
+    },
+    {
+      "pop_bin": "80-100",
+      "n": 4,
+      "wet": 4,
+      "observed_wet_rate": 1.0
+    }
+  ],
+  "lead_time_groups": [
+    {
+      "lead_hours": [
+        1,
+        6
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 211,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          184,
+          16
+        ],
+        [
+          2,
+          9
+        ]
+      ],
+      "counts": {
+        "TN": 184,
+        "FP": 16,
+        "FN": 2,
+        "TP": 9
+      },
+      "false_alarm_ratio": 0.64,
+      "false_positive_rate": 0.08,
+      "miss_rate": 0.18181818181818182,
+      "accuracy": 0.9146919431279621
+    },
+    {
+      "lead_hours": [
+        7,
+        12
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 207,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          194,
+          4
+        ],
+        [
+          0,
+          9
+        ]
+      ],
+      "counts": {
+        "TN": 194,
+        "FP": 4,
+        "FN": 0,
+        "TP": 9
+      },
+      "false_alarm_ratio": 0.3076923076923077,
+      "false_positive_rate": 0.020202020202020204,
+      "miss_rate": 0.0,
+      "accuracy": 0.9806763285024155
+    },
+    {
+      "lead_hours": [
+        13,
+        24
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 414,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          391,
+          8
+        ],
+        [
+          3,
+          12
+        ]
+      ],
+      "counts": {
+        "TN": 391,
+        "FP": 8,
+        "FN": 3,
+        "TP": 12
+      },
+      "false_alarm_ratio": 0.4,
+      "false_positive_rate": 0.020050125313283207,
+      "miss_rate": 0.2,
+      "accuracy": 0.9734299516908212
+    },
+    {
+      "lead_hours": [
+        25,
+        25
+      ],
+      "data_kind": "REAL_DATA",
+      "evaluated_rows": 4,
+      "excluded": {
+        "observation_missing": 0,
+        "invalid_value": 0
+      },
+      "confusion_matrix": [
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "counts": {
+        "TN": 4,
+        "FP": 0,
+        "FN": 0,
+        "TP": 0
+      },
+      "false_alarm_ratio": null,
+      "false_positive_rate": 0.0,
+      "miss_rate": null,
+      "accuracy": 1.0
+    }
+  ]
+}
