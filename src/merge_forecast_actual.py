@@ -45,12 +45,13 @@ merged["lead_hours"] = (target - issued).dt.total_seconds() / 3600
 ok = merged[merged["rain_missing"] == 0]
 print(f"예보 행수: {len(fc)}, 평가 가능: {len(ok)}, 제외: {len(merged) - len(ok)}")
 print(f"예보 기간: {fc['date'].min()} ~ {fc['date'].max()}")
+print("collected_at 빈 값:", merged["collected_at"].isna().sum())
 print("--- 임시 확인용 (예보 PTY>0 vs 실측 real_rain>0) ---")
 print(pd.crosstab(ok["PTY"] > 0, ok["real_rain"] > 0,
                   rownames=["예보 비"], colnames=["실제 비"]))
 
-cols = ["baseDate", "baseTime", "date", "time", "lead_hours", "nx", "ny",
-        "POP", "PCP", "PTY", "PCP_raw", "pcp_under1mm",
+cols = ["baseDate", "baseTime", "collected_at", "date", "time", "lead_hours",
+        "nx", "ny", "POP", "PCP", "PTY", "PCP_raw", "pcp_under1mm",
         "real_rain", "rain_missing", "temp", "humidity"]
 merged[cols].to_csv(OUT, index=False, encoding="utf-8-sig")
 print("저장 완료:", OUT)
