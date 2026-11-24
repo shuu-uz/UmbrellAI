@@ -23,8 +23,7 @@ def score(model, daily_pop, rain, carry, wet):
     return round(100 / (1 + math.exp(-z)), 2)
 
 
-def train(source):
-    raw = pd.read_csv(source)
+def survey_frame(raw):
     def question(number):
         col, = [c for c in raw if c.startswith(f"{number}. ")]
         return raw[col]
@@ -37,9 +36,14 @@ def train(source):
                                        target=choice.eq("챙긴다").astype(int))))
     df = pd.concat(frames, ignore_index=True)
     assert df[FEATURES[1:]].isin(range(1, 6)).all().all()
+    return df
+
+
+def evaluate_models(df):
+    """Return the exact fold-out predictions underlying the published table."""
     y = df.target
     folds = list(GroupKFold(5).split(df, y, groups=df.person))
-    metrics = {}
+    metrics, predictions = {}, {}
     for name, features in [("weather_only", FEATURES[:1]), ("combined", FEATURES)]:
         x = df[features]
         prob = np.full(len(df), np.nan)
@@ -50,6 +54,16 @@ def train(source):
             prob[te] = estimator.predict_proba(x.iloc[te])[:, 1]
         metrics[name] = dict(brier=brier_score_loss(y, prob), auc=roc_auc_score(y, prob),
                              accuracy=accuracy_score(y, prob >= .5))
+        predictions[name] = prob.copy()
+    return metrics, predictions
+
+
+def train(source):
+    raw = pd.read_csv(source)
+    df = survey_frame(raw)
+    metrics, _ = evaluate_models(df)
+    x, y = df[FEATURES], df.target
+    estimator = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000))
     estimator.fit(x, y)
     scale, regression = estimator.steps[0][1], estimator.steps[1][1]
     weights = regression.coef_[0] / scale.scale_

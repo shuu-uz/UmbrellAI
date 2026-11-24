@@ -78,19 +78,7 @@ for a,b in [(1,2),(3,4)]:
         trans={'챙긴다':1,'고민된다':undecided,'챙기지 않는다':0}
         delta=(q(b).map(trans)-q(a).map(trans)).to_numpy()
         print('paired',a,undecided,delta.mean(),np.quantile(delta[ix].mean(axis=1),[.025,.975]))
-# Paired OOF differences. Resample people (not predictions independently); conditional on fitted folds.
-for a,b in [(1,2),(3,4)]:
-    group=np.tile(np.arange(len(s)),2)
-    condition=np.repeat([0,1],len(s))
-    x=np.column_stack([condition,np.tile(q(5),2),np.tile(q(6),2)])
-    y=np.r_[q(a),q(b)]=='챙긴다'
-    preds=[]
-    for count in [1,3]:
-        pred=np.zeros(len(y))
-        for tr,te in GroupKFold(5).split(x,y,group):
-            model=make_pipeline(StandardScaler(),LogisticRegression(max_iter=2000))
-            model.fit(x[tr,:count],y[tr])
-            pred[te]=model.predict_proba(x[te,:count])[:,1]
-        preds.append(pred)
-    dif=((preds[1]-y)**2-(preds[0]-y)**2).reshape(2,-1).mean(axis=0)
-    print('paired Brier change',a,dif.mean(),np.quantile(dif[ix].mean(axis=1),[.025,.975]))
+# Use the exact prediction pipelines and input order of the published comparison tables.
+from model_comparison_audit import save_audit
+for name, result in save_audit(s)['conditions'].items():
+    print('paired Brier change', name, result['delta'], [result['low'], result['high']])
