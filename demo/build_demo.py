@@ -54,7 +54,7 @@ def build():
     data=payload()
     text=(ROOT/'demo/template.html').read_text(encoding='utf-8')
     if text.count('__PAYLOAD__')!=1 or text.count('__CORE__')!=1:raise ValueError('Template marker missing')
-    encoded=json.dumps(data,ensure_ascii=False,allow_nan=False).replace('<','\\u003c')
+    encoded=json.dumps(data,ensure_ascii=False,allow_nan=False).replace('<',r'<')
     text=text.replace('__PAYLOAD__',encoded).replace('__CORE__',(ROOT/'demo/core.js').read_text(encoding='utf-8'))
     OUT.mkdir(exist_ok=True,parents=True)
     published=ROOT/'docs/demo';published.mkdir(exist_ok=True,parents=True)
