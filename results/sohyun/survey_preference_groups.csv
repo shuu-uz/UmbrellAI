@@ -1,0 +1,7 @@
+﻿preference_group,scenario,n,carry,carry_rate
+wet_more,이동10분,37,20,0.5405405405405406
+wet_more,이동60분,37,30,0.8108108108108109
+equal,이동10분,25,5,0.2
+equal,이동60분,25,16,0.64
+carry_more,이동10분,18,3,0.16666666666666666
+carry_more,이동60분,18,7,0.3888888888888889

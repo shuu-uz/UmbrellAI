@@ -1,0 +1,136 @@
+[
+  {
+    "case": "measured_scenario_10min",
+    "kind": "ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME",
+    "input": {
+      "travel_pops": [
+        50
+      ],
+      "minutes": 10,
+      "carry_discomfort": 4,
+      "wet_discomfort": 4
+    },
+    "output": {
+      "score_kind": "stated_carry_intention",
+      "calibration": "raw_POP_retained",
+      "actual_need_validated": false,
+      "hard_recommendation": null,
+      "status": "exploratory",
+      "score": 31.32,
+      "meaning": "Model-estimated stated carry intention, not actual umbrella need",
+      "domain": "POP=50%; 10 or 60 outdoor minutes; survey 1-5 discomfort scales",
+      "travel_pops": [
+        50.0
+      ],
+      "algorithm_links": {
+        "H1": "Keep supplied POP; no probability recalibration",
+        "H2": "Confirmed travel window and measured 10/60 minute condition",
+        "H3": "Fitted carry/wet discomfort inputs"
+      }
+    }
+  },
+  {
+    "case": "measured_scenario_60min",
+    "kind": "ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME",
+    "input": {
+      "travel_pops": [
+        50
+      ],
+      "minutes": 60,
+      "carry_discomfort": 4,
+      "wet_discomfort": 4
+    },
+    "output": {
+      "score_kind": "stated_carry_intention",
+      "calibration": "raw_POP_retained",
+      "actual_need_validated": false,
+      "hard_recommendation": null,
+      "status": "exploratory",
+      "score": 64.77,
+      "meaning": "Model-estimated stated carry intention, not actual umbrella need",
+      "domain": "POP=50%; 10 or 60 outdoor minutes; survey 1-5 discomfort scales",
+      "travel_pops": [
+        50.0
+      ],
+      "algorithm_links": {
+        "H1": "Keep supplied POP; no probability recalibration",
+        "H2": "Confirmed travel window and measured 10/60 minute condition",
+        "H3": "Fitted carry/wet discomfort inputs"
+      }
+    }
+  },
+  {
+    "case": "unmeasured_POP",
+    "kind": "ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME",
+    "input": {
+      "travel_pops": [
+        60
+      ],
+      "minutes": 10,
+      "carry_discomfort": 4,
+      "wet_discomfort": 4
+    },
+    "output": {
+      "score_kind": "stated_carry_intention",
+      "calibration": "raw_POP_retained",
+      "actual_need_validated": false,
+      "hard_recommendation": null,
+      "status": "outside_survey_domain",
+      "score": null,
+      "travel_pops": [
+        60.0
+      ],
+      "reason": "No validated model for varying POP or POP other than 50%"
+    }
+  },
+  {
+    "case": "unmeasured_time",
+    "kind": "ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME",
+    "input": {
+      "travel_pops": [
+        50
+      ],
+      "minutes": 30,
+      "carry_discomfort": 4,
+      "wet_discomfort": 4
+    },
+    "output": {
+      "score_kind": "stated_carry_intention",
+      "calibration": "raw_POP_retained",
+      "actual_need_validated": false,
+      "hard_recommendation": null,
+      "status": "outside_survey_domain",
+      "score": null,
+      "reason": "Measured scenarios only: POP=50 and outdoor_minutes=10 or 60",
+      "travel_pops": [
+        50.0
+      ],
+      "algorithm_links": {
+        "H1": "Keep supplied POP; no probability recalibration",
+        "H2": "Confirmed travel window and measured 10/60 minute condition",
+        "H3": "Fitted carry/wet discomfort inputs"
+      }
+    }
+  },
+  {
+    "case": "travel_window_not_selected",
+    "kind": "ILLUSTRATIVE_INPUT_NOT_OBSERVED_OUTCOME",
+    "input": {
+      "travel_pops": [
+        50
+      ],
+      "minutes": 10,
+      "carry_discomfort": 4,
+      "wet_discomfort": 4
+    },
+    "output": {
+      "score_kind": "stated_carry_intention",
+      "calibration": "raw_POP_retained",
+      "actual_need_validated": false,
+      "hard_recommendation": null,
+      "status": "travel_window_required",
+      "score": null,
+      "reason": "Select forecasts for the actual travel time and location first"
+    }
+  }
+]

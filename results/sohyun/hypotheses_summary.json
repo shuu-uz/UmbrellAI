@@ -1,0 +1,85 @@
+{
+  "H1": {
+    "hypothesis": "Higher POP bins have higher observed precipitation frequency",
+    "status": "Direction observed; generalization/calibration unverified",
+    "data": {
+      "evaluated_hours": 107,
+      "bins": [
+        {
+          "pop_bin": "0-<20",
+          "n": 70,
+          "wet": 0,
+          "observed_wet_rate": 0.0
+        },
+        {
+          "pop_bin": "20-<40",
+          "n": 27,
+          "wet": 0,
+          "observed_wet_rate": 0.0
+        },
+        {
+          "pop_bin": "40-<60",
+          "n": 0,
+          "wet": 0,
+          "observed_wet_rate": null
+        },
+        {
+          "pop_bin": "60-<80",
+          "n": 10,
+          "wet": 8,
+          "observed_wet_rate": 0.8
+        },
+        {
+          "pop_bin": "80-100",
+          "n": 0,
+          "wet": 0,
+          "observed_wet_rate": null
+        }
+      ]
+    },
+    "algorithm_action": "Retain raw POP; no learned probability recalibration"
+  },
+  "H2": {
+    "hypothesis": "At POP=50%, 60-minute scenario has higher carry intention than 10-minute scenario",
+    "status": "Supported within these hypothetical paired scenarios",
+    "data": {
+      "before": "이동10분",
+      "after": "이동60분",
+      "n_respondents": 80,
+      "before_carry": 28,
+      "after_carry": 53,
+      "gain": 25,
+      "loss": 0,
+      "exact_mcnemar_p": 5.960464477539063e-08,
+      "holm_p": 5.960464477539063e-08
+    },
+    "effect_percentage_points": 31.25,
+    "algorithm_action": "Include exposure duration; no inferred 15-minute cutoff or interpolation"
+  },
+  "H3": {
+    "hypothesis": "Preference for avoiding wet discomfort is associated with higher carry intention",
+    "status": "Exploratory association and model improvement potential; no external validation",
+    "association": {
+      "n_respondents": 80,
+      "spearman_rho": 0.3983715075794851,
+      "permutation_p_two_sided": 0.00039996000399960006,
+      "permutations": 10000,
+      "seed": 42,
+      "test_unit": "One source respondent row, with both choices kept together",
+      "scope": "Exploratory association after inspecting these data; not causal or preregistered"
+    },
+    "split_sensitivity": {
+      "repetitions": 20,
+      "respondents": 80,
+      "accuracy_gain_mean": 0.0290625,
+      "accuracy_gain_min": -0.012499999999999956,
+      "accuracy_gain_max": 0.043749999999999956,
+      "brier_improvement_mean": 0.01616651065453965,
+      "brier_improvement_min": 0.011962800222381387,
+      "brier_improvement_max": 0.021608636928949432,
+      "brier_improved_repetitions": 20,
+      "scope": "Split sensitivity on the same 80 records; ranges are not confidence intervals or external evidence"
+    },
+    "algorithm_action": "Include both discomfort inputs; do not treat ordinal scores as cost ratios"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "target": "stated_carry_intention",
+  "feature_names": [
+    "outdoor_minutes"
+  ],
+  "mean": [
+    35.0
+  ],
+  "scale": [
+    25.0
+  ],
+  "coefficients": [
+    0.6293622531245919
+  ],
+  "intercept": 0.0275605782875984,
+  "classes": [
+    0,
+    1
+  ],
+  "C": 1.0,
+  "score_domain": {
+    "POP": [
+      50
+    ],
+    "outdoor_minutes": [
+      10,
+      60
+    ],
+    "discomfort": [
+      1,
+      5
+    ]
+  },
+  "limitations": "Hypothetical intentions only; not physical need or calibrated real-world probability"
+}

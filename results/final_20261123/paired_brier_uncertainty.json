@@ -1,0 +1,46 @@
+{
+  "conditions": {
+    "POP50": {
+      "baseline_brier": 0.22740017842747018,
+      "personalized_brier": 0.2081768242194822,
+      "delta": -0.01922335420798801,
+      "low": -0.047411518432502665,
+      "high": 0.011941324352115479,
+      "respondents": 80,
+      "scenario_rows": 160,
+      "repetitions": 5000,
+      "seed": 42,
+      "delta_definition": "personalized minus baseline; negative favors personalized",
+      "interval": "Paired respondent percentile bootstrap, conditional on fixed OOF predictions",
+      "contains_zero": true,
+      "cv": "StratifiedGroupKFold(5, shuffle=True, random_state=42); original person-first order"
+    },
+    "daily_POP60": {
+      "baseline_brier": 0.20263196524479232,
+      "personalized_brier": 0.19025516683033694,
+      "delta": -0.012376798414455367,
+      "low": -0.029741924555436606,
+      "high": 0.005049487909210847,
+      "respondents": 80,
+      "scenario_rows": 160,
+      "repetitions": 5000,
+      "seed": 42,
+      "delta_definition": "personalized minus baseline; negative favors personalized",
+      "interval": "Paired respondent percentile bootstrap, conditional on fixed OOF predictions",
+      "contains_zero": true,
+      "cv": "GroupKFold(5); original scenario-first order"
+    }
+  },
+  "survey_sha256": "1031fe5858929bcd98e8df331e675af9769f63ac3d0ff742df1d8e395a52c847",
+  "point_estimates_reproduced": true,
+  "versions": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2"
+  },
+  "limitations": [
+    "Conditional intervals do not include refitting/model selection uncertainty.",
+    "80 source submissions are treated as respondent groups; repeat submissions unknown.",
+    "Survey intentions only; not independent external or behavioral validation."
+  ]
+}
